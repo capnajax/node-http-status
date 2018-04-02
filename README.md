@@ -1,10 +1,8 @@
 # http-status-codes
 
-Constants enumerating the HTTP status codes. Based on the [Java Apache HttpStatus API](http://hc.apache.org/httpclient-3.x/apidocs/org/apache/commons/httpclient/HttpStatus.html).
+Constants enumerating the HTTP status codes. Based on status codes defined in multiple RFCs plus common non-standard codes.
 
-All status codes defined in RFC1945 (HTTP/1.0), RFC2616 (HTTP/1.1), RFC2518 (WebDAV), RFC6585 (Additional HTTP Status Codes), and RFC7538 (Permanent Redirect) are supported.
-
-Completely library agnostic. No dependencies.
+Completely library agnostic. No production dependencies.
 
 ## Installation
 
@@ -33,33 +31,45 @@ response
 Constant                            | Code  | Status Text
 ------------------------------------|-------|-----------------------------------
 ACCEPTED                            | 202   | Accepted
+ALREADY_REPORTED                    | 208   | Already Reported
 BAD_GATEWAY                         | 502   | Bad Gateway
 BAD_REQUEST                         | 400   | Bad Request
+BANDWIDTH_LIMIT_EXCEEDED            | 509   | Bandwidth Limit Exceeded
+BLOCKED_BY_PARENTAL_CONTROLS        | 450   | Blocked by Windows Parental Controls
+CLIENT_CLOSED_REQUEST               | 499   | Client Closed Request
 CONFLICT                            | 409   | Conflict
 CONTINUE                            | 100   | Continue
 CREATED                             | 201   | Created
+EARLY_HINTS                         | 103   | Early Hints
+ENHANCE_YOUR_CALM                   | 420   | Enhance your calm
 EXPECTATION_FAILED                  | 417   | Expectation Failed
 FAILED_DEPENDENCY                   | 424   | Failed Dependency
 FORBIDDEN                           | 403   | Forbidden
 GATEWAY_TIMEOUT                     | 504   | Gateway Timeout
 GONE                                | 410   | Gone
 HTTP_VERSION_NOT_SUPPORTED          | 505   | HTTP Version Not Supported
+IM_USED                             | 226   | IM Used
 IM_A_TEAPOT                         | 418   | I'm a teapot
 INSUFFICIENT_SPACE_ON_RESOURCE      | 419   | Insufficient Space on Resource
 INSUFFICIENT_STORAGE                | 507   | Insufficient Storage
 INTERNAL_SERVER_ERROR               | 500   | Server Error
 LENGTH_REQUIRED                     | 411   | Length Required
 LOCKED                              | 423   | Locked
-METHOD_FAILURE                      | 420   | Method Failure
+LOOP_DETECTED                       | 508   | Loop Detected
 METHOD_NOT_ALLOWED                  | 405   | Method Not Allowed
+MISDIRECTED_REQUEST                 | 421   | Misdirected Request
 MOVED_PERMANENTLY                   | 301   | Moved Permanently
 MOVED_TEMPORARILY                   | 302   | Moved Temporarily
 MULTI_STATUS                        | 207   | Multi-Status
 MULTIPLE_CHOICES                    | 300   | Multiple Choices
 NETWORK_AUTHENTICATION_REQUIRED     | 511   | Network Authentication Required
+NETWORK_READ_TIMEOUT                | 598   | Network Read Timeout Error
+NETWORK_CONNECT_TIMEOUT             | 599   | Network Connect Timeout Error
 NO_CONTENT                          | 204   | No Content
+NO_RESPONSE                         | 444   | No Response
 NON_AUTHORITATIVE_INFORMATION       | 203   | Non Authoritative Information
 NOT_ACCEPTABLE                      | 406   | Not Acceptable
+NOT_EXTENDED                        | 510   | Not Extended
 NOT_FOUND                           | 404   | Not Found
 NOT_IMPLEMENTED                     | 501   | Not Implemented
 NOT_MODIFIED                        | 304   | Not Modified
@@ -76,6 +86,7 @@ REQUEST_TIMEOUT                     | 408   | Request Timeout
 REQUEST_TOO_LONG                    | 413   | Request Entity Too Large
 REQUEST_URI_TOO_LONG                | 414   | Request-URI Too Long
 REQUESTED_RANGE_NOT_SATISFIABLE     | 416   | Requested Range Not Satisfiable
+RETRY_WITH                          | 449   | Retry With
 RESET_CONTENT                       | 205   | Reset Content
 SEE_OTHER                           | 303   | See Other
 SERVICE_UNAVAILABLE                 | 503   | Service Unavailable
@@ -83,9 +94,12 @@ SWITCHING_PROTOCOLS                 | 101   | Switching Protocols
 TEMPORARY_REDIRECT                  | 307   | Temporary Redirect
 TOO_MANY_REQUESTS                   | 429   | Too Many Requests
 UNAUTHORIZED                        | 401   | Unauthorized
+UNAVAILABLE_FOR_LEGAL_REASONS       | 451   | Unavailable For Legal Reasons
 UNPROCESSABLE_ENTITY                | 422   | Unprocessable Entity
 UNSUPPORTED_MEDIA_TYPE              | 415   | Unsupported Media Type
 USE_PROXY                           | 305   | Use Proxy
+UPGRADE_REQUIRED                    | 426   | Upgrade Required
+VARIANT_ALSO_NEGOTIATES             | 506   | Variant Also Negotiates
 
 ## TypeScript
 
