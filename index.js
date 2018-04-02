@@ -13,33 +13,45 @@
 var statusCodes = {};
 
 statusCodes[exports.ACCEPTED = 202] = "Accepted";
+statusCodes[exports.ALREADY_REPORTED = 208] = "Already Reported"
 statusCodes[exports.BAD_GATEWAY = 502] = "Bad Gateway";
 statusCodes[exports.BAD_REQUEST = 400] = "Bad Request";
+statusCodes[exports.BANDWIDTH_LIMIT_EXCEEDED = 509] = "Bandwidth Limit Exceeded";
+statusCodes[exports.BLOCKED_BY_PARENTAL_CONTROLS = 450] = "Blocked by Windows Parental Controls";
+statusCodes[exports.CLIENT_CLOSED_REQUEST = 499] = "Client Closed Request";
 statusCodes[exports.CONFLICT = 409] = "Conflict";
 statusCodes[exports.CONTINUE = 100] = "Continue";
 statusCodes[exports.CREATED = 201] = "Created";
+statusCodes[exports.EARLY_HINTS = 103] = "Early Hints";
+statusCodes[exports.ENHANCE_YOUR_CALM = 420] = "Enhance your calm";
 statusCodes[exports.EXPECTATION_FAILED = 417] = "Expectation Failed";
 statusCodes[exports.FAILED_DEPENDENCY  = 424] = "Failed Dependency";
 statusCodes[exports.FORBIDDEN = 403] = "Forbidden";
 statusCodes[exports.GATEWAY_TIMEOUT = 504] = "Gateway Timeout";
 statusCodes[exports.GONE = 410] = "Gone";
 statusCodes[exports.HTTP_VERSION_NOT_SUPPORTED = 505] = "HTTP Version Not Supported";
+statusCodes[exports.IM_USED = 226] = "IM Used";
 statusCodes[exports.IM_A_TEAPOT = 418] = "I'm a teapot";
 statusCodes[exports.INSUFFICIENT_SPACE_ON_RESOURCE = 419] = "Insufficient Space on Resource";
 statusCodes[exports.INSUFFICIENT_STORAGE = 507] = "Insufficient Storage";
 statusCodes[exports.INTERNAL_SERVER_ERROR = 500] = "Server Error";
 statusCodes[exports.LENGTH_REQUIRED = 411] = "Length Required";
 statusCodes[exports.LOCKED = 423] = "Locked";
-statusCodes[exports.METHOD_FAILURE = 420] = "Method Failure";
+statusCodes[exports.LOOP_DETECTED = 508] = "Loop Detected";
 statusCodes[exports.METHOD_NOT_ALLOWED = 405] = "Method Not Allowed";
+statusCodes[exports.MISDIRECTED_REQUEST = 421] = "Misdirected Request";
 statusCodes[exports.MOVED_PERMANENTLY = 301] = "Moved Permanently";
 statusCodes[exports.MOVED_TEMPORARILY = 302] = "Moved Temporarily";
 statusCodes[exports.MULTI_STATUS = 207] = "Multi-Status";
 statusCodes[exports.MULTIPLE_CHOICES = 300] = "Multiple Choices";
 statusCodes[exports.NETWORK_AUTHENTICATION_REQUIRED = 511] = "Network Authentication Required";
+statusCodes[exports.NETWORK_READ_TIMEOUT = 598] = "Network Read Timeout Error";
+statusCodes[exports.NETWORK_CONNECT_TIMEOUT = 599] = "Network Connect Timeout Error";
 statusCodes[exports.NO_CONTENT = 204] = "No Content";
+statusCodes[exports.NO_RESPONSE = 444] = "No Response";
 statusCodes[exports.NON_AUTHORITATIVE_INFORMATION = 203] = "Non Authoritative Information";
 statusCodes[exports.NOT_ACCEPTABLE = 406] = "Not Acceptable";
+statusCodes[exports.NOT_EXTENDED = 510] = "Not Extended";
 statusCodes[exports.NOT_FOUND = 404] = "Not Found";
 statusCodes[exports.NOT_IMPLEMENTED = 501] = "Not Implemented";
 statusCodes[exports.NOT_MODIFIED = 304] = "Not Modified";
@@ -56,6 +68,7 @@ statusCodes[exports.REQUEST_TIMEOUT = 408] = "Request Timeout";
 statusCodes[exports.REQUEST_TOO_LONG = 413] = "Request Entity Too Large";
 statusCodes[exports.REQUEST_URI_TOO_LONG = 414] = "Request-URI Too Long";
 statusCodes[exports.REQUESTED_RANGE_NOT_SATISFIABLE = 416] = "Requested Range Not Satisfiable";
+statusCodes[exports.RETRY_WITH = 449] = "Retry With";
 statusCodes[exports.RESET_CONTENT = 205] = "Reset Content";
 statusCodes[exports.SEE_OTHER = 303] = "See Other";
 statusCodes[exports.SERVICE_UNAVAILABLE = 503] = "Service Unavailable";
@@ -63,9 +76,28 @@ statusCodes[exports.SWITCHING_PROTOCOLS = 101] = "Switching Protocols";
 statusCodes[exports.TEMPORARY_REDIRECT = 307] = "Temporary Redirect";
 statusCodes[exports.TOO_MANY_REQUESTS = 429] = "Too Many Requests";
 statusCodes[exports.UNAUTHORIZED = 401] = "Unauthorized";
+statusCodes[exports.UNAVAILABLE_FOR_LEGAL_REASONS = 451] = "Unavailable For Legal Reasons";
 statusCodes[exports.UNPROCESSABLE_ENTITY = 422] = "Unprocessable Entity";
 statusCodes[exports.UNSUPPORTED_MEDIA_TYPE = 415] = "Unsupported Media Type";
 statusCodes[exports.USE_PROXY = 305] = "Use Proxy";
+statusCodes[exports.UPGRADE_REQUIRED = 426] = "Upgrade Required";
+statusCodes[exports.VARIANT_ALSO_NEGOTIATES = 506] = "Variant Also Negotiates";
+
+statusCodes[exports.INFORMATION = '1xx'] = "Information";
+statusCodes[exports.SUCCESS = '2xx'] = "Success";
+statusCodes[exports.REDIRECTION = '3xx'] = "Redirection";
+statusCodes[exports.CLIENT_ERROR = '4xx'] = "Client Error";
+statusCodes[exports.SERVER_ERROR = '5xx'] = "Server Error";
+
+exports.getStatusDetails = function(statusCode) {
+	result = {
+		code: statusCode,
+		text: exports.getStatusText(statusCode), // throws error if status code does not exist
+		series: (Math.floor(statusCode / 100)) + 'xx',
+	}
+	result.series = result.series + ' ' + statusCodes[result.series];
+	return result;
+}
 
 exports.getStatusText = function(statusCode) {
   if (statusCodes.hasOwnProperty(statusCode)) {

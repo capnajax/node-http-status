@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "description": "Constants enumerating the HTTP status codes. Based on the Java Apache HttpStatus API.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,9 @@
   ],
   "author": "Bryce Neal",
   "license": "MIT",
-  "typings": "index.d.ts"
+  "typings": "index.d.ts",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5"
+  }
 }
