@@ -10,7 +10,10 @@
  * Ported by Bryce Neal.
  */
 
-var statusCodes = {};
+protocols = require('./protocols');
+
+var statusCodes = {},
+	defaultProtocol = protocols.constants.HTTP11
 
 statusCodes[exports.ACCEPTED = 202] = "Accepted";
 statusCodes[exports.ALREADY_REPORTED = 208] = "Already Reported"
@@ -29,6 +32,7 @@ statusCodes[exports.FAILED_DEPENDENCY  = 424] = "Failed Dependency";
 statusCodes[exports.FORBIDDEN = 403] = "Forbidden";
 statusCodes[exports.GATEWAY_TIMEOUT = 504] = "Gateway Timeout";
 statusCodes[exports.GONE = 410] = "Gone";
+statusCodes[exports.HTTP_REQUEST_TO_HTTPS_PORT = 497] = "HTTP Request Sent to HTTPS Port"
 statusCodes[exports.HTTP_VERSION_NOT_SUPPORTED = 505] = "HTTP Version Not Supported";
 statusCodes[exports.IM_USED = 226] = "IM Used";
 statusCodes[exports.IM_A_TEAPOT = 418] = "I'm a teapot";
@@ -63,6 +67,7 @@ statusCodes[exports.PRECONDITION_FAILED = 412] = "Precondition Failed";
 statusCodes[exports.PRECONDITION_REQUIRED = 428] = "Precondition Required";
 statusCodes[exports.PROCESSING = 102] = "Processing";
 statusCodes[exports.PROXY_AUTHENTICATION_REQUIRED = 407] = "Proxy Authentication Required";
+statusCodes[exports.REQUEST_HEADER_TOO_LARGE = 431] = "Request Header Too Large";
 statusCodes[exports.REQUEST_HEADER_FIELDS_TOO_LARGE = 431] = "Request Header Fields Too Large";
 statusCodes[exports.REQUEST_TIMEOUT = 408] = "Request Timeout";
 statusCodes[exports.REQUEST_TOO_LONG = 413] = "Request Entity Too Large";
@@ -72,6 +77,8 @@ statusCodes[exports.RETRY_WITH = 449] = "Retry With";
 statusCodes[exports.RESET_CONTENT = 205] = "Reset Content";
 statusCodes[exports.SEE_OTHER = 303] = "See Other";
 statusCodes[exports.SERVICE_UNAVAILABLE = 503] = "Service Unavailable";
+statusCodes[exports.SSL_CERTIFICATE_ERROR = 495] = "SSL Certificate Error"
+statusCodes[exports.SSL_CERTIFICATE_REQUIRED = 496] = "SSL Certificate Required"
 statusCodes[exports.SWITCHING_PROTOCOLS = 101] = "Switching Protocols";
 statusCodes[exports.TEMPORARY_REDIRECT = 307] = "Temporary Redirect";
 statusCodes[exports.TOO_MANY_REQUESTS = 429] = "Too Many Requests";
@@ -89,20 +96,49 @@ statusCodes[exports.REDIRECTION = '3xx'] = "Redirection";
 statusCodes[exports.CLIENT_ERROR = '4xx'] = "Client Error";
 statusCodes[exports.SERVER_ERROR = '5xx'] = "Server Error";
 
-exports.getStatusDetails = function(statusCode) {
-	result = {
-		code: statusCode,
-		text: exports.getStatusText(statusCode), // throws error if status code does not exist
-		series: (Math.floor(statusCode / 100)) + 'xx',
+exports.constants = protocols.constants;
+
+exports.setDefaultProtocol = function (protocol) {
+	if (protocols.hasOwnProperty(protocol)) {
+		defaultProtocol = protocol;
+	} else {
+		throw new Error("Protocol is not supported: " + protocol);
 	}
-	result.series = result.series + ' ' + statusCodes[result.series];
-	return result;
 }
 
-exports.getStatusText = function(statusCode) {
-  if (statusCodes.hasOwnProperty(statusCode)) {
-    return statusCodes[statusCode];
-  } else {
-    throw new Error("Status code does not exist: " + statusCode);
-  }
+/**
+ *	@method getStatusDetails
+ *	Return details of the status code.
+ *	@param {Number} statusCode - the status to look up
+ *	@param {String} [protocol = defaultProtocol] the protocol to look up the standard for.
+ */
+exports.getStatusDetails = function(statusCode, protocol) {
+	protocol | (protocol = defaultProtocol);
+	if (protocols[protocol].codes.hasOwnProperty(statusCode)) {
+		result = {
+			code: statusCode,
+			text: exports.getStatusText(statusCode), // throws error if status code does not exist
+			series: (Math.floor(statusCode / 100)) + 'xx',
+			rfc: protocols[protocol].codes[statusCode]
+		};
+		result.series = result.series + ' ' + statusCodes[result.series];
+		return result;
+	} else {
+		throw new Error("Status code " + statusCode + " does not exist in protocol " + protocol);
+	}
+}
+
+/**
+ *	@method getStatusText
+ *	Return details of the status code. Throws if the status code is not part of the protocol.
+ *	@param {Number} statusCode - the status to look up
+ *	@param {String} [protocol = defaultProtocol] the protocol to look up the text for.
+ */
+exports.getStatusText = function(statusCode, protocol) {
+	protocol | (protocol = defaultProtocol);
+	if (protocols[protocol].codes.hasOwnProperty(statusCode)) {
+		return statusCodes[statusCode];
+	} else {
+		throw new Error("Status code " + statusCode + " does not exist in protocol " + protocol);
+	}
 };

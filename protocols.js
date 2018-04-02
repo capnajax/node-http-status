@@ -1,13 +1,25 @@
 const
+	HTTP10 = 'HTTP/1.0'
 	HTTP11 = 'HTTP/1.1',
 	HTTP2 = 'HTTP/2',
 	HTCPCP = 'HTCPCP',
 	HTCPT = 'HTCPCP-TEA',
 	WEBDAV = 'WebDAV',
+	NON_STANDARD = 'non-standard';
 
-	standards = [
+var	standards = [
 
-		{	rfc: 2068,
+		{	rfc: 1945,
+			title: 'Hypertext Transfer Protocol -- HTTP/1.0',
+			protocol: HTTP10,
+			defines: [
+				200, 201, 202,      204,
+				300, 301, 302,      304,
+				400, 401,      403, 404,
+				500, 501, 502, 503
+			]
+		},{
+			rfc: 2068,
 			title: 'Hypertext Transfer Protocol -- HTTP/1.1',
 			protocol: HTTP11,
 			defines: [
@@ -105,9 +117,6 @@ const
 			extends: HTTP11,
 			defines: [421],
 			removes: [101]
-
-
-
 		},{
 			rfc: 2324,
 			title: 'Hyper Text Coffee Pot Control Protocol (HTCPCP/1.0)',
@@ -120,10 +129,15 @@ const
 			extends: 2324,
 			protocol: HTCPT,
 			defines: [300, 403, 418]
+		},{ 
+			rfc: 2518,
+			title: 'HTTP Extensions for Distributed Authoring -- WEBDAV',
+			extends: HTTP11,
+			protocol: WEBDAV,
+			defines: [201, 204, 207, 403, 405, 409, 412, 415, 423, 502, 507]
 		},{
 			title: 'HTTP Extensions for Web Distributed Authoring and Versioning (WebDAV)',
 			rfc: 4918,
-			extends: 2616,
 			protocol: WEBDAV,
 			defines: [207, 422, 423, 424, 507]
 		},{
@@ -139,17 +153,17 @@ const
 			defines: [412]
 		},{
 			// all non-standard stati
-			rfc: 'non-standard',
-			protocol: 'non-standard',
-			defines: [420, 444, 449, 450, 499, 509, 598, 599],
+			rfc: -1,
+			protocol: NON_STANDARD,
+			defines: [420, 444, 449, 450, 494, 495, 496, 497, 499, 509, 598, 599],
 		}
 	],
-
 	protocols = {};
 
 // sort by RFC, but put HTTP/1.1 and HTTP2 standards last
 standards.sort((a,b) => {
-	var precedence = x => {
+	var result,
+		precedence = x => {
 			switch(x.protocol) {
 			case HTTP2:
 				return 2;
@@ -163,10 +177,11 @@ standards.sort((a,b) => {
 		pb = precedence(b);
 
 	if (pa == pb) {
-		return a.rfc - b.rfc;
+		result = a.rfc - b.rfc;
 	} else {
-		return pa - pb;
+		result = pa - pb;
 	}
+	return result;
 });
 
 var allProtocols = new Set();
@@ -187,7 +202,7 @@ function rollProtocol(protocol) {
 
 	rfcs = standards.filter(s => {
 			var accept = true;
-			if (protocolName != 'non-standard') {
+			if (protocolName != NON_STANDARD) {
 				accept = accept && ( !lastRfc || s.rfc <= lastRfc);
 				accept = accept && ( protocolName == s.protocol);
 			}
@@ -217,4 +232,21 @@ allProtocols.forEach(p => {
 	protocols[p] = rollProtocol(p);
 });
 
-module.exports = protocols
+module.exports = {
+	HTTP10	: protocols[HTTP10],
+	HTTP11	: protocols[HTTP11],
+	HTTP2	: protocols[HTTP2],
+	HTCPCP	: protocols[HTCPCP],
+	HTCPT	: protocols[HTCPT],
+	WEBDAV	: protocols[WEBDAV],
+	NON_STANDARD : protocols[NON_STANDARD],
+	constants : {
+		HTTP10	: 'HTTP10',
+		HTTP11	: 'HTTP11',
+		HTTP2	: 'HTTP2',
+		HTCPCP	: 'HTCPCP',
+		HTCPT	: 'HTCPT',
+		WEBDAV	: 'WEBDAV',
+		NON_STANDARD : 'NON_STANDARD'
+	}
+}
