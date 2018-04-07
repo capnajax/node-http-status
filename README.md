@@ -101,10 +101,6 @@ USE_PROXY                           | 305   | Use Proxy
 UPGRADE_REQUIRED                    | 426   | Upgrade Required
 VARIANT_ALSO_NEGOTIATES             | 506   | Variant Also Negotiates
 
-## TypeScript
-
-There is an included definition file that adds rules for use, comments, and links to official documentation.
-
 ### Usage
 
 Option 1: Full import of package
