@@ -23,11 +23,14 @@
     "status",
     "codes"
   ],
-  "engines": { "node": ">=4.8.7" },
+  "engines": {
+    "node": ">=4.8.7"
+  },
   "dependencies": {},
   "author": "Thomas Wilkinson (https://github.com/capnajax)",
-  "contributors" : [
-    { "name": "Bryce Neal", 
+  "contributors": [
+    {
+      "name": "Bryce Neal",
       "url": "https://github.com/prettymuchbryce"
     }
   ],
