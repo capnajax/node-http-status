@@ -1,19 +1,19 @@
-# http-status-codes
+# web-status-codes
 
-Constants enumerating the HTTP status codes. Based on status codes defined in multiple RFCs plus common non-standard codes.
+Details status codes for HTTP and related protocols. Based on Bryce Neal's [http-status-codes](https://github.com/prettymuchbryce/node-http-status)
 
 Completely library agnostic. No production dependencies.
 
 ## Installation
 
 ```console
-npm install http-status-codes --save
+npm install web-status-codes --save
 ```
 
 ## Usage (express 4.x)
 
 ```javascript
-var HttpStatus = require('http-status-codes');
+var HttpStatus = require('web-status-codes');
 
 response
 	.status(HttpStatus.OK)
@@ -101,30 +101,3 @@ USE_PROXY                           | 305   | Use Proxy
 UPGRADE_REQUIRED                    | 426   | Upgrade Required
 VARIANT_ALSO_NEGOTIATES             | 506   | Variant Also Negotiates
 
-### Usage
-
-Option 1: Full import of package
-
-```typescript
-import * as HttpStatus from 'http-status-codes'
-
-response
-	.status(HttpStatus.OK)
-	.send('ok')
-
-response
-	.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	.send({
-		error: HttpStatus.getStatusText(HttpStatus.INTERNAL_SERVER_ERROR)
-	})
-```
-
-Option 2: Selective import
-
-```typescript
-import { OK, getStatusText } from 'http-status-codes'
-
-response
-	.status(OK)
-	.send(getStatusText(OK))
-```
